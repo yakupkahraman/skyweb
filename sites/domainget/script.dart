@@ -1,4 +1,4 @@
-void submit(Function getInput, Function post, Function setText) {
+void submit() {
   var domain = getInput('domain');
   var tld = getInput('tld');
   var repo = getInput('repo');

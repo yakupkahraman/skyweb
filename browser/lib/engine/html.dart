@@ -204,8 +204,9 @@ Widget? _buildElement(
 
     case 'img':
       final src = element.attributes['src'] ?? '';
-      if (src.isEmpty)
+      if (src.isEmpty) {
         return const Icon(Icons.broken_image, color: Colors.grey);
+      }
       return Image.network(
         src,
         errorBuilder: (context, error, stackTrace) =>
