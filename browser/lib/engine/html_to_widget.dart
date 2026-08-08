@@ -110,7 +110,7 @@ Widget? _buildElement(
       return result;
     case 'p':
       final style = resolveStyle(element, cssRules);
-      final color = parseColor(style['color']) ?? Colors.black;
+      final color = parseColor(style['color']) ?? Colors.white;
       final fontSize = parseFontSize(style['font-size']) ?? 16;
       final id = element.attributes['id'];
       final text = id != null
@@ -122,7 +122,7 @@ Widget? _buildElement(
       );
     case 'h1':
       final style = resolveStyle(element, cssRules);
-      final color = parseColor(style['color']) ?? Colors.black;
+      final color = parseColor(style['color']) ?? Colors.white;
       final fontSize = parseFontSize(style['font-size']) ?? 24;
       return Text(
         element.text,
@@ -134,7 +134,7 @@ Widget? _buildElement(
       );
     case 'h2':
       final style = resolveStyle(element, cssRules);
-      final color = parseColor(style['color']) ?? Colors.black;
+      final color = parseColor(style['color']) ?? Colors.white;
       final fontSize = parseFontSize(style['font-size']) ?? 20;
       return Text(
         element.text,
@@ -146,7 +146,7 @@ Widget? _buildElement(
       );
     case 'h3':
       final style = resolveStyle(element, cssRules);
-      final color = parseColor(style['color']) ?? Colors.black;
+      final color = parseColor(style['color']) ?? Colors.white;
       final fontSize = parseFontSize(style['font-size']) ?? 18;
       return Text(
         element.text,
@@ -198,7 +198,7 @@ Widget? _buildElement(
         child: Text(
           element.text,
           style: const TextStyle(
-            color: Colors.blue,
+            color: Colors.lightBlueAccent,
             decoration: TextDecoration.underline,
           ),
         ),
@@ -224,7 +224,7 @@ Widget? _buildElement(
           controller: runtime.controllerFor(id),
           style: TextStyle(
             fontSize: parseFontSize(style['font-size']) ?? 14,
-            color: parseColor(style['color']) ?? Colors.black,
+            color: parseColor(style['color']) ?? Colors.white,
           ),
           decoration: InputDecoration(
             isDense: true,
@@ -355,4 +355,14 @@ CrossAxisAlignment parseCrossAxis(String? raw) {
     default:
       return CrossAxisAlignment.start;
   }
+}
+
+Color? bodyBackgroundColor(List<CssRule> cssRules) {
+  for (final rule in cssRules) {
+    if (rule.selector == 'body') {
+      final color = parseColor(rule.declarations['background-color']);
+      if (color != null) return color;
+    }
+  }
+  return null;
 }

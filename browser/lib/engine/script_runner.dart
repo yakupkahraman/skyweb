@@ -30,6 +30,7 @@ class ScriptRuntime {
 
     try {
       final compiler = Compiler();
+      compiler.entrypoints.add('package:sky/script.dart');
       _program = compiler.compile({
         'sky': {'script.dart': source},
       });

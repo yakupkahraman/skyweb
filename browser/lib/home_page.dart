@@ -159,9 +159,16 @@ class _HomePageState extends State<HomePage> {
                       minWidth: constraints.maxWidth,
                       minHeight: constraints.maxHeight,
                     ),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: buildWidgetFromHtml(html, cssRules, scriptRuntime),
+                    child: Container(
+                      color: bodyBackgroundColor(cssRules) ?? Colors.black,
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: buildWidgetFromHtml(
+                          html,
+                          cssRules,
+                          scriptRuntime,
+                        ),
+                      ),
                     ),
                   ),
                 );
