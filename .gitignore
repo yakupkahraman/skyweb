@@ -1,0 +1,25 @@
+# macOS
+.DS_Store
+
+# Node / Cloudflare
+node_modules/
+.dev.vars*
+.env*
+.wrangler/
+
+# Flutter / Dart
+.dart_tool/
+.pub-cache/
+.pub/
+build/
+*.iml
+
+# Android
+local.properties
+key.properties
+*.keystore
+*.jks
+
+# IDE
+.idea/
+.vscode/

@@ -1,0 +1,29 @@
+.page {
+  direction: column;
+  gap: 12px;
+  padding: 24px;
+}
+
+.row {
+  direction: row;
+  cross-axis: center;
+  gap: 8px;
+}
+
+.label {
+  color: #555555;
+  font-size: 14px;
+}
+
+.status {
+  color: #007700;
+  font-size: 14px;
+}
+
+h1 {
+  color: #1a1a1a;
+}
+
+p {
+  color: #333333;
+}
