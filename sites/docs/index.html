@@ -6,33 +6,33 @@
 <body>
 <div class="page">
 
-  <h1>Sky Web Dokumantasyon</h1>
-  <p class="lead">Kendi sitenizi yazin, .site uzantiniz olsun. Bu sayfa Sky Web'in nasil calistigini ve nasil site yapacaginizi anlatir.</p>
+  <h1>Sky Web Dokümantasyonu</h1>
+  <p class="lead">Kendi sitenizi yazın, .site uzantınız olsun. Bu sayfa Sky Web'in nasıl çalıştığını ve nasıl site yapacağınızı anlatır.</p>
 
-  <h2>Sky Web nasil calisir</h2>
+  <h2>Sky Web nasıl çalışır</h2>
 
   <ol>
-    <li><p>Adres cubuguna ornek.site yazarsiniz.</p></li>
+    <li><p>Adres çubuğuna ornek.site yazarsınız.</p></li>
     <li><p>SkyBrowser bunu SkyDNS'e sorar: hangi GitHub deposu?</p></li>
-    <li><p>SkyDNS depo adresini dondurur, ornegin kullanici/repo.</p></li>
-    <li><p>SkyBrowser o depodan index.html, styles.css ve script.dart dosyalarini indirir.</p></li>
-    <li><p>Engine HTML'i Flutter widget'larina cevirir, CSS'i uygular, script'i calistirir.</p></li>
+    <li><p>SkyDNS depo adresini döndürür, örneğin kullanıcı/repo.</p></li>
+    <li><p>SkyBrowser o depodan index.html, styles.css ve script.dart dosyalarını indirir.</p></li>
+    <li><p>Engine HTML'i Flutter widget'larına çevirir, CSS'i uygular, script'i çalıştırır.</p></li>
   </ol>
 
-  <p>Yani siteniz bir sunucuda degil, GitHub deposunda durur. Sunucu tutmaniza gerek yok.</p>
+  <p>Yani siteniz bir sunucuda değil, GitHub deposunda durur. Sunucu tutmanıza gerek yok.</p>
 
   <h2>Dosyalar</h2>
 
-  <p>Deponuzun kokunde ya da bir alt klasorde su dosyalar bulunur:</p>
+  <p>Deponuzun kökünde ya da bir alt klasörde şu dosyalar bulunur:</p>
 
   <ul>
-    <li><p>index.html - zorunlu, sayfanin iskeleti</p></li>
-    <li><p>styles.css - istege bagli, gorunum</p></li>
-    <li><p>script.dart - istege bagli, buton davranislari</p></li>
-    <li><p>favicon.png - istege bagli, sekme ikonu</p></li>
+    <li><p>index.html - zorunlu, sayfanın iskeleti</p></li>
+    <li><p>styles.css - isteğe bağlı, görünüm</p></li>
+    <li><p>script.dart - isteğe bağlı, buton davranışları</p></li>
+    <li><p>favicon.png - isteğe bağlı, sekme ikonu</p></li>
   </ul>
 
-  <h2>Ilk sayfaniz</h2>
+  <h2>İlk sayfanız</h2>
 
   <div class="code">
 <p>&lt;html&gt;
@@ -47,26 +47,26 @@
 &lt;/html&gt;</p>
   </div>
 
-  <p class="note">Not: Ikon icin &lt;link rel="icon"&gt; degil, kendi &lt;icon src="..." /&gt; etiketimiz kullanilir.</p>
+  <p class="note">Not: İkon için &lt;link rel="icon"&gt; değil, kendi &lt;icon src="..." /&gt; etiketimiz kullanılır.</p>
 
   <h2>Desteklenen etiketler</h2>
 
   <ul>
-    <li><p>h1, h2, h3 - basliklar</p></li>
+    <li><p>h1, h2, h3 - başlıklar</p></li>
     <li><p>p - paragraf</p></li>
-    <li><p>div - kutu ve yerlesim</p></li>
+    <li><p>div - kutu ve yerleşim</p></li>
     <li><p>ul, ol, li - listeler</p></li>
-    <li><p>a - link gorunumu</p></li>
+    <li><p>a - link görünümü</p></li>
     <li><p>img - resim, src ile</p></li>
     <li><p>input - metin kutusu, id ile</p></li>
     <li><p>button - buton, onclick ile</p></li>
   </ul>
 
-  <p class="note">Listelerde li icine dogrudan yazi yazmayin, icine p koyun.</p>
+  <p class="note">Listelerde li içine doğrudan yazı yazmayın, içine p koyun.</p>
 
   <h2>CSS</h2>
 
-  <p>Iki secici turu vardir: etiket adi ve nokta ile sinif. id secici yoktur, id sadece script icin kullanilir.</p>
+  <p>İki seçici türü vardır: etiket adı ve nokta ile sınıf. id seçici yoktur, id sadece script için kullanılır.</p>
 
   <div class="code">
 <p>h1 {
@@ -81,9 +81,9 @@
 
   <p>Renkler: hex (#ff0000, #f00) veya isim (red, blue, white, black, green, yellow, orange, purple, grey).</p>
 
-  <h2>Yerlesim</h2>
+  <h2>Yerleşim</h2>
 
-  <p>Her div bir yerlesim kutusudur. display yazmaniza gerek yok, direction yeter.</p>
+  <p>Her div bir yerleşim kutusudur. display yazmanıza gerek yok, direction yeter.</p>
 
   <div class="code">
 <p>.satir {
@@ -97,18 +97,18 @@
   </div>
 
   <ul>
-    <li><p>direction: row veya column, varsayilan row</p></li>
+    <li><p>direction: row veya column, varsayılan row</p></li>
     <li><p>main-axis: start, center, end, space-between, space-around</p></li>
     <li><p>cross-axis: start, center, end, stretch</p></li>
-    <li><p>gap: ogeler arasi bosluk</p></li>
+    <li><p>gap: öğeler arası boşluk</p></li>
     <li><p>padding: 16px ya da 8px 16px ya da 8px 16px 8px 16px</p></li>
   </ul>
 
-  <p class="note">main-axis ve cross-axis, CSS'teki justify-content ve align-items yerine gecer.</p>
+  <p class="note">main-axis ve cross-axis, CSS'teki justify-content ve align-items yerine geçer.</p>
 
-  <h2>Sayfa arka plani</h2>
+  <h2>Sayfa arka planı</h2>
 
-  <p>Varsayilan arka plan siyah, yazilar beyazdir. Degistirmek isterseniz:</p>
+  <p>Varsayılan arka plan siyah, yazılar beyazdır. Değiştirmek isterseniz:</p>
 
   <div class="code">
 <p>body {
@@ -116,21 +116,21 @@
 }</p>
   </div>
 
-  <p>Acik zemine gecerseniz yazi renklerini de kendiniz belirlemelisiniz.</p>
+  <p>Açık zemine geçerseniz yazı renklerini de kendiniz belirlemelisiniz.</p>
 
   <h2>script.dart</h2>
 
-  <p>Butonlara davranis eklemek icin script.dart yazarsiniz. JavaScript degil, gercek Dart.</p>
+  <p>Butonlara davranış eklemek için script.dart yazarsınız. JavaScript değil, gerçek Dart.</p>
 
-  <p>Butonda onclick ile fonksiyon adini verirsiniz:</p>
+  <p>Butonda onclick ile fonksiyon adını verirsiniz:</p>
 
   <div class="code">
-<p>&lt;input id="ad" placeholder="adiniz" /&gt;
+<p>&lt;input id="ad" placeholder="adınız" /&gt;
 &lt;button onclick="selamla"&gt;Selamla&lt;/button&gt;
 &lt;p id="cikti"&gt;&lt;/p&gt;</p>
   </div>
 
-  <p>script.dart icinde ayni isimde bir fonksiyon tanimlarsiniz. Her fonksiyon uc parametre alir, sirasi degismez:</p>
+  <p>script.dart içinde aynı isimde bir fonksiyon tanımlarsınız. Her fonksiyon üç parametre alır, sırası değişmez:</p>
 
   <div class="code">
 <p>void selamla(Function getInput, Function post, Function setText) {
@@ -139,39 +139,39 @@
 }</p>
   </div>
 
-  <h2>Script fonksiyonlari</h2>
+  <h2>Script fonksiyonları</h2>
 
   <ul>
-    <li><p>getInput(id) - o id'li input'un icindeki yaziyi verir</p></li>
-    <li><p>setText(id, yazi) - o id'li p etiketinin yazisini degistirir</p></li>
-    <li><p>post(adres, govde, sonucId) - adrese POST atar, cevabi sonucId'ye yazar</p></li>
+    <li><p>getInput(id) - o id'li input'un içindeki yazıyı verir</p></li>
+    <li><p>setText(id, yazi) - o id'li p etiketinin yazısını değiştirir</p></li>
+    <li><p>post(adres, govde, sonucId) - adrese POST atar, cevabı sonucId'ye yazar</p></li>
   </ul>
 
-  <p class="note">post beklemez, cevap gelince sonuc kendiliginden yazilir. await kullanmaniza gerek yok.</p>
+  <p class="note">post beklemez, cevap gelince sonuç kendiliğinden yazılır. await kullanmanıza gerek yok.</p>
 
   <h2>Domain alma</h2>
 
-  <p>Siteniz hazir olunca GitHub'a yukleyin, sonra adres cubuguna domain.get yazip kaydinizi olusturun.</p>
+  <p>Siteniz hazır olunca GitHub'a yükleyin, sonra adres çubuğuna domain.get yazıp kaydınızı oluşturun.</p>
 
   <ul>
-    <li><p>Domain: istediginiz ad, ornegin blog</p></li>
-    <li><p>TLD: uzanti, ornegin site</p></li>
-    <li><p>Repo: kullanici/repo ya da kullanici/repo/klasor</p></li>
+    <li><p>Domain: istediğiniz ad, örneğin blog</p></li>
+    <li><p>TLD: uzantı, örneğin site</p></li>
+    <li><p>Repo: kullanıcı/repo ya da kullanıcı/repo/klasör</p></li>
   </ul>
 
-  <p>Kayittan sonra adres cubuguna blog.site yazarak sitenizi acabilirsiniz.</p>
+  <p>Kayıttan sonra adres çubuğuna blog.site yazarak sitenizi açabilirsiniz.</p>
 
-  <h2>Sinirlar</h2>
+  <h2>Sınırlar</h2>
 
   <ul>
-    <li><p>Linkler henuz tiklanabilir degil, sadece gorunum</p></li>
-    <li><p>id secici CSS'te calismaz, sadece script icin</p></li>
-    <li><p>setText sadece p etiketlerinde calisir</p></li>
-    <li><p>font-family, border, margin henuz yok</p></li>
+    <li><p>Linkler henüz tıklanabilir değil, sadece görünüm</p></li>
+    <li><p>id seçici CSS'te çalışmaz, sadece script için</p></li>
+    <li><p>setText sadece p etiketlerinde çalışır</p></li>
+    <li><p>font-family, border, margin henüz yok</p></li>
     <li><p>Dal her zaman main kabul edilir</p></li>
   </ul>
 
-  <p class="lead">Sky Web hobi olarak gelistiriliyor, eksikler zamanla kapanacak.</p>
+  <p class="lead">Sky Web hobi olarak geliştiriliyor, eksikler zamanla kapanacak.</p>
 
 </div>
 </body>
