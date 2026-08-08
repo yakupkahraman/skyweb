@@ -14,9 +14,21 @@ Using a custom edge DNS service (**SkyDNS**) and a custom Flutter browser (**Sky
 
 ## 📂 Project Structure
 
-1. [**`browser/` (SkyBrowser)**](./browser/README.md): A Flutter browser that resolves `sky://` domains, fetches HTML, CSS, and Dart scripts from GitHub, and renders them into native widgets.
+1. [**`browser/` (SkyBrowser)**](./browser/README.md): A Flutter browser featuring a modular rendering engine (`html.dart`, `css.dart`, `script.dart`, `engine.dart`) and state controller (`BrowserController`) that resolves `sky://` domains, fetches assets in parallel, and renders interactive pages.
 2. [**`skydns/` (SkyDNS Service)**](./skydns/README.md): A lightweight Cloudflare Workers & D1 DNS service that maps `sky://` domains to GitHub repositories.
-3. [**`sites/`**](./sites/): Sample web pages hosted on the `sky://` network, such as a domain registration interface.
+3. [**`sites/`**](./sites/): Sample web pages hosted on the `sky://` network, such as `docs` and domain registration interfaces (`domainget`).
+
+---
+
+## 🏗️ SkyBrowser Engine Architecture
+
+- **`browser/lib/engine/`**:
+  - `engine.dart`: Integration hub and facade for parallel asset fetching (`Future.wait`).
+  - `html.dart`: HTML parser & Flutter widget builder (flex containers, headings, links, inputs, dimensions).
+  - `css.dart`: Optimized CSS parser and selector resolution engine with pre-compiled RegEx.
+  - `script.dart`: `dart_eval` runtime for executing page scripts in a sandboxed environment.
+- **`browser/lib/browser_controller.dart`**: State manager (`ChangeNotifier`) decoupling business logic from UI.
+- **`browser/lib/main_page.dart`**: Reactive presentation layer listening to `BrowserController`.
 
 ---
 
