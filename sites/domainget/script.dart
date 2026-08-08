@@ -4,7 +4,7 @@ void submit(Function getInput, Function post, Function setText) {
   var repo = getInput('repo');
 
   if (domain == '' || tld == '' || repo == '') {
-    setText('status', 'Tum alanlari doldurun.');
+    setText('status', 'Tüm alanları doldurun.');
     return;
   }
 
