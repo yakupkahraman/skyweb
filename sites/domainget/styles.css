@@ -9,14 +9,14 @@ body {
   padding: 24px;
 }
 
-.row {
+.column {
   direction: column;
   cross-axis: start;
   gap: 8px;
 }
 
 .form {
-  direction: column;
+  direction: row;
   gap: 8px;
   color: #d29922;
 }
