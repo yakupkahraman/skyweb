@@ -16,7 +16,25 @@ Widget buildWidgetFromHtml(
     return const SizedBox.shrink();
   }
 
-  return _buildChildren(body, cssRules, runtime);
+  final style = resolveStyle(body, cssRules);
+
+  final widgets = <Widget>[];
+  for (final node in body.nodes) {
+    if (node is dom.Element) {
+      final widget = _buildElement(node, cssRules, runtime);
+      if (widget != null) {
+        widgets.add(widget);
+      }
+    }
+  }
+
+  return Column(
+    mainAxisAlignment: parseMainAxis(style['main-axis']),
+    crossAxisAlignment: parseCrossAxis(style['cross-axis']),
+    mainAxisSize: MainAxisSize.max,
+    spacing: parseGap(style['gap']) ?? 0,
+    children: widgets,
+  );
 }
 
 Widget _buildChildren(

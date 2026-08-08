@@ -161,14 +161,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     child: Container(
                       color: bodyBackgroundColor(cssRules) ?? Colors.black,
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: buildWidgetFromHtml(
-                          html,
-                          cssRules,
-                          scriptRuntime,
-                        ),
-                      ),
+                      child: buildWidgetFromHtml(html, cssRules, scriptRuntime),
                     ),
                   ),
                 );
