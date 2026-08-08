@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>docs.site</title>
+</head>
+<body>
+<div class="page">
+
+  <h1>Sky Web Dokumantasyon</h1>
+  <p class="lead">Kendi sitenizi yazin, .site uzantiniz olsun. Bu sayfa Sky Web'in nasil calistigini ve nasil site yapacaginizi anlatir.</p>
+
+  <h2>Sky Web nasil calisir</h2>
+
+  <ol>
+    <li><p>Adres cubuguna ornek.site yazarsiniz.</p></li>
+    <li><p>SkyBrowser bunu SkyDNS'e sorar: hangi GitHub deposu?</p></li>
+    <li><p>SkyDNS depo adresini dondurur, ornegin kullanici/repo.</p></li>
+    <li><p>SkyBrowser o depodan index.html, styles.css ve script.dart dosyalarini indirir.</p></li>
+    <li><p>Engine HTML'i Flutter widget'larina cevirir, CSS'i uygular, script'i calistirir.</p></li>
+  </ol>
+
+  <p>Yani siteniz bir sunucuda degil, GitHub deposunda durur. Sunucu tutmaniza gerek yok.</p>
+
+  <h2>Dosyalar</h2>
+
+  <p>Deponuzun kokunde ya da bir alt klasorde su dosyalar bulunur:</p>
+
+  <ul>
+    <li><p>index.html - zorunlu, sayfanin iskeleti</p></li>
+    <li><p>styles.css - istege bagli, gorunum</p></li>
+    <li><p>script.dart - istege bagli, buton davranislari</p></li>
+    <li><p>favicon.png - istege bagli, sekme ikonu</p></li>
+  </ul>
+
+  <h2>Ilk sayfaniz</h2>
+
+  <div class="code">
+<p>&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Benim Sitem&lt;/title&gt;
+  &lt;icon src="favicon.png" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Merhaba&lt;/h1&gt;
+  &lt;p&gt;Bu benim ilk Sky sitem.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</p>
+  </div>
+
+  <p class="note">Not: Ikon icin &lt;link rel="icon"&gt; degil, kendi &lt;icon src="..." /&gt; etiketimiz kullanilir.</p>
+
+  <h2>Desteklenen etiketler</h2>
+
+  <ul>
+    <li><p>h1, h2, h3 - basliklar</p></li>
+    <li><p>p - paragraf</p></li>
+    <li><p>div - kutu ve yerlesim</p></li>
+    <li><p>ul, ol, li - listeler</p></li>
+    <li><p>a - link gorunumu</p></li>
+    <li><p>img - resim, src ile</p></li>
+    <li><p>input - metin kutusu, id ile</p></li>
+    <li><p>button - buton, onclick ile</p></li>
+  </ul>
+
+  <p class="note">Listelerde li icine dogrudan yazi yazmayin, icine p koyun.</p>
+
+  <h2>CSS</h2>
+
+  <p>Iki secici turu vardir: etiket adi ve nokta ile sinif. id secici yoktur, id sadece script icin kullanilir.</p>
+
+  <div class="code">
+<p>h1 {
+  color: white;
+  font-size: 32px;
+}
+
+.uyari {
+  color: red;
+}</p>
+  </div>
+
+  <p>Renkler: hex (#ff0000, #f00) veya isim (red, blue, white, black, green, yellow, orange, purple, grey).</p>
+
+  <h2>Yerlesim</h2>
+
+  <p>Her div bir yerlesim kutusudur. display yazmaniza gerek yok, direction yeter.</p>
+
+  <div class="code">
+<p>.satir {
+  direction: row;
+  main-axis: space-between;
+  cross-axis: center;
+  gap: 12px;
+  padding: 16px;
+  background-color: #222222;
+}</p>
+  </div>
+
+  <ul>
+    <li><p>direction: row veya column, varsayilan row</p></li>
+    <li><p>main-axis: start, center, end, space-between, space-around</p></li>
+    <li><p>cross-axis: start, center, end, stretch</p></li>
+    <li><p>gap: ogeler arasi bosluk</p></li>
+    <li><p>padding: 16px ya da 8px 16px ya da 8px 16px 8px 16px</p></li>
+  </ul>
+
+  <p class="note">main-axis ve cross-axis, CSS'teki justify-content ve align-items yerine gecer.</p>
+
+  <h2>Sayfa arka plani</h2>
+
+  <p>Varsayilan arka plan siyah, yazilar beyazdir. Degistirmek isterseniz:</p>
+
+  <div class="code">
+<p>body {
+  background-color: white;
+}</p>
+  </div>
+
+  <p>Acik zemine gecerseniz yazi renklerini de kendiniz belirlemelisiniz.</p>
+
+  <h2>script.dart</h2>
+
+  <p>Butonlara davranis eklemek icin script.dart yazarsiniz. JavaScript degil, gercek Dart.</p>
+
+  <p>Butonda onclick ile fonksiyon adini verirsiniz:</p>
+
+  <div class="code">
+<p>&lt;input id="ad" placeholder="adiniz" /&gt;
+&lt;button onclick="selamla"&gt;Selamla&lt;/button&gt;
+&lt;p id="cikti"&gt;&lt;/p&gt;</p>
+  </div>
+
+  <p>script.dart icinde ayni isimde bir fonksiyon tanimlarsiniz. Her fonksiyon uc parametre alir, sirasi degismez:</p>
+
+  <div class="code">
+<p>void selamla(Function getInput, Function post, Function setText) {
+  var ad = getInput('ad');
+  setText('cikti', 'Merhaba ' + ad);
+}</p>
+  </div>
+
+  <h2>Script fonksiyonlari</h2>
+
+  <ul>
+    <li><p>getInput(id) - o id'li input'un icindeki yaziyi verir</p></li>
+    <li><p>setText(id, yazi) - o id'li p etiketinin yazisini degistirir</p></li>
+    <li><p>post(adres, govde, sonucId) - adrese POST atar, cevabi sonucId'ye yazar</p></li>
+  </ul>
+
+  <p class="note">post beklemez, cevap gelince sonuc kendiliginden yazilir. await kullanmaniza gerek yok.</p>
+
+  <h2>Domain alma</h2>
+
+  <p>Siteniz hazir olunca GitHub'a yukleyin, sonra adres cubuguna domain.get yazip kaydinizi olusturun.</p>
+
+  <ul>
+    <li><p>Domain: istediginiz ad, ornegin blog</p></li>
+    <li><p>TLD: uzanti, ornegin site</p></li>
+    <li><p>Repo: kullanici/repo ya da kullanici/repo/klasor</p></li>
+  </ul>
+
+  <p>Kayittan sonra adres cubuguna blog.site yazarak sitenizi acabilirsiniz.</p>
+
+  <h2>Sinirlar</h2>
+
+  <ul>
+    <li><p>Linkler henuz tiklanabilir degil, sadece gorunum</p></li>
+    <li><p>id secici CSS'te calismaz, sadece script icin</p></li>
+    <li><p>setText sadece p etiketlerinde calisir</p></li>
+    <li><p>font-family, border, margin henuz yok</p></li>
+    <li><p>Dal her zaman main kabul edilir</p></li>
+  </ul>
+
+  <p class="lead">Sky Web hobi olarak gelistiriliyor, eksikler zamanla kapanacak.</p>
+
+</div>
+</body>
+</html>
