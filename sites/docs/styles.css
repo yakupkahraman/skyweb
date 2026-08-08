@@ -1,35 +1,41 @@
 body {
   background-color: #0d1117;
-  main-axis: center;
-  cross-axis: center;
 }
 
 .page {
   direction: column;
-  gap: 12px;
-  padding: 24px;
-}
-
-.row {
-  direction: row;
-  cross-axis: center;
-  gap: 8px;
-}
-
-.label {
-  color: #aaaaaa;
-  font-size: 14px;
-}
-
-.status {
-  color: #4ade80;
-  font-size: 14px;
+  gap: 14px;
+  padding: 32px;
 }
 
 h1 {
   color: #ffffff;
+  font-size: 34px;
+}
+
+h2 {
+  color: #7dd3fc;
+  font-size: 22px;
 }
 
 p {
-  color: #dddddd;
+  color: #c9d1d9;
+  font-size: 15px;
+}
+
+.lead {
+  color: #8b949e;
+  font-size: 17px;
+}
+
+.note {
+  color: #d29922;
+  font-size: 14px;
+}
+
+.code {
+  direction: column;
+  background-color: #161b22;
+  padding: 16px;
+  gap: 4px;
 }
