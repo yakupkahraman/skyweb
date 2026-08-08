@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as html_parser;
@@ -39,7 +41,7 @@ Future<String?> _fetchOptional(String repo, String fileName) async {
     final uri = Uri.parse('${_baseUrl(repo)}/$fileName');
     final response = await http.get(uri);
     if (response.statusCode == 200) {
-      return response.body;
+      return utf8.decode(response.bodyBytes, allowMalformed: true);
     }
   } catch (e) {
     debugPrint('Error fetching $fileName: $e');
@@ -55,7 +57,7 @@ Future<FetchResult> fetchSite(String repo) async {
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {
-      final htmlBody = response.body;
+      final htmlBody = utf8.decode(response.bodyBytes, allowMalformed: true);
       final document = html_parser.parse(htmlBody);
 
       final siteName = document.querySelector('title')?.text;
