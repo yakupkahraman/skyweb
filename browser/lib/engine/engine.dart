@@ -1,8 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as html_parser;
+import 'package:http/http.dart' as http;
+
+export 'css.dart';
+export 'html.dart';
+export 'script.dart';
 
 enum FetchStatus { success, notFound, error }
 
@@ -61,19 +65,20 @@ Future<FetchResult> fetchSite(String repo) async {
       final document = html_parser.parse(htmlBody);
 
       final siteName = document.querySelector('title')?.text;
-
-      final iconElement = document.querySelector('icon');
-      final iconSrc = iconElement?.attributes['src'];
+      final iconSrc = document.querySelector('icon')?.attributes['src'];
       final faviconUrl = iconSrc != null ? '$base/$iconSrc' : null;
 
-      final cssBody = await _fetchOptional(repo, 'styles.css') ?? '';
-      final scriptBody = await _fetchOptional(repo, 'script.dart');
+      // Fetch CSS and script in parallel for performance improvement
+      final optionalAssets = await Future.wait([
+        _fetchOptional(repo, 'styles.css'),
+        _fetchOptional(repo, 'script.dart'),
+      ]);
 
       return FetchResult(
         status: FetchStatus.success,
         html: htmlBody,
-        css: cssBody,
-        script: scriptBody,
+        css: optionalAssets[0] ?? '',
+        script: optionalAssets[1],
         siteName: siteName,
         faviconUrl: faviconUrl,
       );

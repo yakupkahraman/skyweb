@@ -7,31 +7,28 @@ class CssRule {
   CssRule({required this.selector, required this.declarations});
 }
 
+final _commentRegex = RegExp(r'/\*.*?\*/', dotAll: true);
+final _blockRegex = RegExp(r'([^{}]+)\{([^{}]*)\}');
+final _whitespaceRegex = RegExp(r'\s+');
+
 List<CssRule> parseCss(String source) {
   final rules = <CssRule>[];
+  final cleaned = source.replaceAll(_commentRegex, '');
 
-  final cleaned = source.replaceAll(RegExp(r'/\*.*?\*/', dotAll: true), '');
-  final blockPattern = RegExp(r'([^{}]+)\{([^{}]*)\}');
-
-  for (final match in blockPattern.allMatches(cleaned)) {
+  for (final match in _blockRegex.allMatches(cleaned)) {
     final selector = match.group(1)?.trim() ?? '';
     final body = match.group(2)?.trim() ?? '';
-
     if (selector.isEmpty || body.isEmpty) continue;
 
     final declarations = <String, String>{};
     for (final statement in body.split(';')) {
-      final trimmed = statement.trim();
-      if (trimmed.isEmpty) continue;
-
-      final colonIndex = trimmed.indexOf(':');
+      final colonIndex = statement.indexOf(':');
       if (colonIndex == -1) continue;
 
-      final property = trimmed.substring(0, colonIndex).trim().toLowerCase();
-      final value = trimmed.substring(colonIndex + 1).trim();
-
-      if (property.isNotEmpty && value.isNotEmpty) {
-        declarations[property] = value;
+      final prop = statement.substring(0, colonIndex).trim().toLowerCase();
+      final val = statement.substring(colonIndex + 1).trim();
+      if (prop.isNotEmpty && val.isNotEmpty) {
+        declarations[prop] = val;
       }
     }
 
@@ -45,23 +42,15 @@ List<CssRule> parseCss(String source) {
 
 Map<String, String> resolveStyle(dom.Element element, List<CssRule> allRules) {
   final resolved = <String, String>{};
+  final classAttr = element.attributes['class']?.trim();
+  final classNames = classAttr?.split(_whitespaceRegex).toSet() ?? const {};
 
   for (final rule in allRules) {
     if (rule.selector == element.localName) {
       resolved.addAll(rule.declarations);
-    }
-  }
-
-  final classAttr = element.attributes['class'];
-  if (classAttr != null) {
-    final classNames = classAttr.trim().split(RegExp(r'\s+'));
-    for (final rule in allRules) {
-      if (rule.selector.startsWith('.')) {
-        final className = rule.selector.substring(1);
-        if (classNames.contains(className)) {
-          resolved.addAll(rule.declarations);
-        }
-      }
+    } else if (rule.selector.startsWith('.') &&
+        classNames.contains(rule.selector.substring(1))) {
+      resolved.addAll(rule.declarations);
     }
   }
 

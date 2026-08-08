@@ -17,7 +17,6 @@ class ScriptRuntime {
   void Function(String url)? onNavigate;
 
   String? get compileError => _compileError;
-
   bool get hasScript => _program != null;
 
   void load(String? source) {
@@ -37,21 +36,15 @@ class ScriptRuntime {
       });
     } catch (e) {
       _compileError = e.toString();
-      _program = null;
     }
   }
 
-  void navigate(String url) {
-    onNavigate?.call(url);
-  }
+  void navigate(String url) => onNavigate?.call(url);
 
-  TextEditingController controllerFor(String id) {
-    return _inputs.putIfAbsent(id, () => TextEditingController());
-  }
+  TextEditingController controllerFor(String id) =>
+      _inputs.putIfAbsent(id, TextEditingController.new);
 
-  String textFor(String id, String fallback) {
-    return _texts[id] ?? fallback;
-  }
+  String textFor(String id, String fallback) => _texts[id] ?? fallback;
 
   void call(String handler) {
     final program = _program;
@@ -60,52 +53,38 @@ class ScriptRuntime {
     try {
       final runtime = Runtime.ofProgram(program);
       runtime.executeLib('package:sky/script.dart', handler, [
-        _getInputBridge(),
-        _postBridge(),
-        _setTextBridge(),
+        $Closure((runtime, target, args) {
+          final id = args[0]?.$value as String? ?? '';
+          return $String(_inputs[id]?.text ?? '');
+        }),
+        $Closure((runtime, target, args) {
+          final url = args[0]?.$value as String? ?? '';
+          final body = args[1]?.$value as String? ?? '';
+          final resultId = args.length > 2 ? args[2]?.$value as String? : null;
+          _post(url, body, resultId);
+          return null;
+        }),
+        $Closure((runtime, target, args) {
+          final id = args[0]?.$value as String? ?? '';
+          final value = args[1]?.$value as String? ?? '';
+          _texts[id] = value;
+          onUpdate?.call();
+          return null;
+        }),
       ]);
     } catch (e) {
       debugPrint('Script error in "$handler": $e');
     }
   }
 
-  $Closure _getInputBridge() {
-    return $Closure((runtime, target, args) {
-      final id = args[0]?.$value as String? ?? '';
-      return $String(_inputs[id]?.text ?? '');
-    });
-  }
-
-  $Closure _setTextBridge() {
-    return $Closure((runtime, target, args) {
-      final id = args[0]?.$value as String? ?? '';
-      final value = args[1]?.$value as String? ?? '';
-      _texts[id] = value;
-      onUpdate?.call();
-      return null;
-    });
-  }
-
-  $Closure _postBridge() {
-    return $Closure((runtime, target, args) {
-      final url = args[0]?.$value as String? ?? '';
-      final body = args[1]?.$value as String? ?? '';
-      final resultId = args.length > 2 ? args[2]?.$value as String? : null;
-
-      _post(url, body, resultId);
-      return null;
-    });
-  }
-
   Future<void> _post(String url, String body, String? resultId) async {
-    void write(String value) {
+    void write(String val) {
       if (resultId == null) return;
-      _texts[resultId] = value;
+      _texts[resultId] = val;
       onUpdate?.call();
     }
 
     write('...');
-
     try {
       final response = await http.post(
         Uri.parse(url),
@@ -113,21 +92,20 @@ class ScriptRuntime {
         body: body,
       );
 
-      String message;
+      String msg;
       try {
         final decoded = jsonDecode(response.body);
         if (decoded is Map && decoded['error'] != null) {
-          message = decoded['error'].toString();
+          msg = decoded['error'].toString();
         } else if (decoded is Map && decoded['success'] == true) {
-          message = 'ok';
+          msg = 'ok';
         } else {
-          message = response.body;
+          msg = response.body;
         }
       } catch (_) {
-        message = response.body;
+        msg = response.body;
       }
-
-      write('${response.statusCode}: $message');
+      write('${response.statusCode}: $msg');
     } catch (e) {
       write('error: $e');
     }
