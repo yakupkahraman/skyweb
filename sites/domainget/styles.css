@@ -10,9 +10,15 @@ body {
 }
 
 .row {
-  direction: row;
-  cross-axis: center;
+  direction: column;
+  cross-axis: start;
   gap: 8px;
+}
+
+.form {
+  direction: column;
+  gap: 8px;
+  color: #d29922;
 }
 
 .label {
