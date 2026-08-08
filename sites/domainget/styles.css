@@ -9,21 +9,16 @@ body {
   padding: 24px;
 }
 
-.column {
-  direction: column;
-  cross-axis: start;
-  gap: 8px;
-}
-
-.form {
+.row {
   direction: row;
+  cross-axis: center;
   gap: 8px;
-  color: #d29922;
 }
 
 .label {
   color: #aaaaaa;
   font-size: 14px;
+  width: 70px;
 }
 
 .status {
@@ -37,4 +32,8 @@ h1 {
 
 p {
   color: #dddddd;
+}
+
+input {
+  width: 320px;
 }

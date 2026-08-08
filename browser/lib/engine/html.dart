@@ -89,9 +89,14 @@ Widget? _buildElement(
 
       final padding = parsePadding(style['padding']);
       final bg = parseColor(style['background-color']);
+      final width = parsePxValue(style['width']);
+      final height = parsePxValue(style['height']);
 
       if (padding != null) result = Padding(padding: padding, child: result);
       if (bg != null) result = Container(color: bg, child: result);
+      if (width != null || height != null) {
+        result = SizedBox(width: width, height: height, child: result);
+      }
       return result;
 
     case 'p':
@@ -127,34 +132,11 @@ Widget? _buildElement(
         mainAxisSize: MainAxisSize.min,
         children: element.children
             .where((li) => li.localName == 'li')
-            .map((li) => Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('• '),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: _buildChildWidgets(li, cssRules, runtime),
-                      ),
-                    ),
-                  ],
-                ))
-            .toList(),
-      );
-
-    case 'ol':
-      int index = 1;
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: element.children
-            .where((li) => li.localName == 'li')
-            .map((li) {
-              final row = Row(
+            .map(
+              (li) => Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${index++}. '),
+                  const Text('• '),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -163,10 +145,34 @@ Widget? _buildElement(
                     ),
                   ),
                 ],
-              );
-              return row;
-            })
+              ),
+            )
             .toList(),
+      );
+
+    case 'ol':
+      int index = 1;
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: element.children.where((li) => li.localName == 'li').map((
+          li,
+        ) {
+          final row = Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('${index++}. '),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: _buildChildWidgets(li, cssRules, runtime),
+                ),
+              ),
+            ],
+          );
+          return row;
+        }).toList(),
       );
 
     case 'a':
@@ -174,7 +180,8 @@ Widget? _buildElement(
       final href = element.attributes['href']?.trim();
       final isNavigable =
           href != null && href.isNotEmpty && !href.contains('://');
-      final color = parseColor(style['color']) ??
+      final color =
+          parseColor(style['color']) ??
           (isNavigable ? Colors.lightBlueAccent : Colors.grey);
       final link = Text(
         element.text,
@@ -197,7 +204,8 @@ Widget? _buildElement(
 
     case 'img':
       final src = element.attributes['src'] ?? '';
-      if (src.isEmpty) return const Icon(Icons.broken_image, color: Colors.grey);
+      if (src.isEmpty)
+        return const Icon(Icons.broken_image, color: Colors.grey);
       return Image.network(
         src,
         errorBuilder: (context, error, stackTrace) =>
@@ -220,8 +228,10 @@ Widget? _buildElement(
             hintText: element.attributes['placeholder'],
             hintStyle: const TextStyle(color: Colors.grey),
             border: const OutlineInputBorder(),
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 8,
+              vertical: 8,
+            ),
           ),
         ),
       );
@@ -250,14 +260,14 @@ Widget _buildText(
   final fontSize = parseFontSize(style['font-size']) ?? defaultSize;
   final id = element.attributes['id'];
   final text = id != null ? runtime.textFor(id, element.text) : element.text;
-  return Text(
+  final width = parsePxValue(style['width']);
+
+  final widget = Text(
     text,
-    style: TextStyle(
-      fontSize: fontSize,
-      fontWeight: fontWeight,
-      color: color,
-    ),
+    style: TextStyle(fontSize: fontSize, fontWeight: fontWeight, color: color),
   );
+
+  return width == null ? widget : SizedBox(width: width, child: widget);
 }
 
 Color? parseColor(String? raw) {

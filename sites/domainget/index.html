@@ -8,19 +8,19 @@
     <h1>Domain Kaydı</h1>
     <p>Kendi sitenizi Sky Web'e kaydedin.</p>
 
+    <div class="row">
+      <p class="label">Domain</p>
+      <input id="domain" placeholder="örnek" />
+    </div>
 
-    <div class="form">
-      <div class="column">
-        <p class="label">Domain</p>
-        <p class="label">TLD</p>
-        <p class="label">Repo</p>
-      </div>
+    <div class="row">
+      <p class="label">TLD</p>
+      <input id="tld" placeholder="site" />
+    </div>
 
-      <div class="column">
-        <input id="domain" placeholder="örnek" />
-        <input id="tld" placeholder="site" />
-        <input id="repo" placeholder="kullanıcı/repo veya kullanıcı/repo/klasör" />
-      </div>
+    <div class="row">
+      <p class="label">Repo</p>
+      <input id="repo" placeholder="kullanıcı/repo veya kullanıcı/repo/klasör" />
     </div>
 
     <button onclick="submit">Kaydet</button>
