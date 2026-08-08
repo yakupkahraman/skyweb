@@ -14,6 +14,7 @@ class ScriptRuntime {
   String? _compileError;
 
   VoidCallback? onUpdate;
+  void Function(String url)? onNavigate;
 
   String? get compileError => _compileError;
 
@@ -38,6 +39,10 @@ class ScriptRuntime {
       _compileError = e.toString();
       _program = null;
     }
+  }
+
+  void navigate(String url) {
+    onNavigate?.call(url);
   }
 
   TextEditingController controllerFor(String id) {

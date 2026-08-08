@@ -18,6 +18,13 @@ class _HomePageState extends State<HomePage> {
   FetchResult? fetchResult;
 
   final ScriptRuntime scriptRuntime = ScriptRuntime();
+  final TextEditingController _urlController = TextEditingController();
+  final List<String> _history = [];
+  int _historyIndex = -1;
+
+  bool get _canGoBack => _historyIndex > 0;
+  bool get _canGoForward =>
+      _historyIndex >= 0 && _historyIndex < _history.length - 1;
 
   @override
   void initState() {
@@ -25,12 +32,32 @@ class _HomePageState extends State<HomePage> {
     scriptRuntime.onUpdate = () {
       if (mounted) setState(() {});
     };
+    scriptRuntime.onNavigate = (url) {
+      _handleSubmit(url);
+    };
   }
 
   @override
   void dispose() {
+    _urlController.dispose();
     scriptRuntime.dispose();
     super.dispose();
+  }
+
+  void _goBack() {
+    if (_canGoBack) {
+      _historyIndex--;
+      final url = _history[_historyIndex];
+      _handleSubmit(url, isHistoryNav: true);
+    }
+  }
+
+  void _goForward() {
+    if (_canGoForward) {
+      _historyIndex++;
+      final url = _history[_historyIndex];
+      _handleSubmit(url, isHistoryNav: true);
+    }
   }
 
   @override
@@ -61,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                             const SizedBox(width: 4),
                             Text(
                               fetchResult?.siteName ?? 'Sky Browser',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.grey,
                                 fontSize: 12,
                               ),
@@ -72,7 +99,32 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 48),
+                  const SizedBox(width: 8),
+                  IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(
+                      minWidth: 28,
+                      minHeight: 28,
+                    ),
+                    icon: const Icon(Icons.arrow_back, size: 16),
+                    color: Colors.white,
+                    disabledColor: Colors.grey[700],
+                    onPressed: _canGoBack ? _goBack : null,
+                    tooltip: 'Geri',
+                  ),
+                  IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(
+                      minWidth: 28,
+                      minHeight: 28,
+                    ),
+                    icon: const Icon(Icons.arrow_forward, size: 16),
+                    color: Colors.white,
+                    disabledColor: Colors.grey[700],
+                    onPressed: _canGoForward ? _goForward : null,
+                    tooltip: 'İleri',
+                  ),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(2.0),
@@ -95,6 +147,7 @@ class _HomePageState extends State<HomePage> {
                             const SizedBox(width: 2),
                             Expanded(
                               child: TextField(
+                                controller: _urlController,
                                 onSubmitted: (value) => _handleSubmit(value),
                                 style: const TextStyle(
                                   fontSize: 12,
@@ -117,7 +170,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 48),
+                  const SizedBox(width: 16),
                 ],
               ),
             ),
@@ -181,16 +234,33 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Future<void> _handleSubmit(String value) async {
+  Future<void> _handleSubmit(String value, {bool isHistoryNav = false}) async {
+    final url = value.trim();
+    if (url.isEmpty) return;
+
+    _urlController.text = url;
+
+    if (!isHistoryNav) {
+      if (_historyIndex >= 0 && _historyIndex < _history.length - 1) {
+        _history.removeRange(_historyIndex + 1, _history.length);
+      }
+      if (_history.isEmpty || _history[_historyIndex] != url) {
+        _history.add(url);
+        _historyIndex = _history.length - 1;
+      }
+    }
+
     setState(() {
       isLoading = true;
       fetchResult = null;
     });
 
-    final result = await resolveDomain(value);
+    final result = await resolveDomain(url);
+    if (!mounted) return;
 
     if (result.status == ResolveStatus.success && result.repo != null) {
       final siteResult = await fetchSite(result.repo!);
+      if (!mounted) return;
       scriptRuntime.load(siteResult.script);
       setState(() {
         isLoading = false;

@@ -211,14 +211,31 @@ Widget? _buildElement(
         }).toList(),
       );
     case 'a':
-      return GestureDetector(
-        onTap: () {},
-        child: Text(
-          element.text,
-          style: const TextStyle(
-            color: Colors.lightBlueAccent,
-            decoration: TextDecoration.underline,
-          ),
+      final style = resolveStyle(element, cssRules);
+      final href = element.attributes['href']?.trim();
+      final isNavigable =
+          href != null && href.isNotEmpty && !href.contains('://');
+      final color =
+          parseColor(style['color']) ??
+          (isNavigable ? Colors.lightBlueAccent : Colors.grey);
+      final fontSize = parseFontSize(style['font-size']) ?? 16;
+      final link = Text(
+        element.text,
+        style: TextStyle(
+          fontSize: fontSize,
+          color: color,
+          decoration: TextDecoration.underline,
+          decorationColor: color,
+        ),
+      );
+      if (!isNavigable) {
+        return link;
+      }
+      return MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: () => runtime.navigate(href),
+          child: link,
         ),
       );
     case 'img':
