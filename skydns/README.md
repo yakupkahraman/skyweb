@@ -1,33 +1,33 @@
 # ☁️ SkyDNS Service
 
-**SkyDNS**, `sky://` ağındaki özel alan adlarını GitHub depolarıyla eşleştiren ve çözen hafif bir uç (edge) DNS servisidir.
+**SkyDNS** is a lightweight edge DNS service that resolves custom `sky://` domain names to GitHub repositories.
 
-DNS çözümleme mantığını pratik etmek amacıyla **Cloudflare Workers** ve **Cloudflare D1** kullanılarak geliştirilmiştir.
+It is built on **Cloudflare Workers** and **Cloudflare D1** to experiment with serverless edge architecture and domain resolution.
 
 ---
 
-## 📡 API Uç Noktaları
+## 📡 API Endpoints
 
-### 1. Alan Adı Çözümleme (`GET /resolve`)
+### 1. Resolve Domain (`GET /resolve`)
 - `https://skydns.yakupkahraman.com/resolve?domain=demo&tld=sky`
 
-### 2. Alan Adı Kaydı (`POST /register`)
+### 2. Register Domain (`POST /register`)
 - `https://skydns.yakupkahraman.com/register`
 ```json
 {
-  "domain": "ornek",
+  "domain": "example",
   "tld": "sky",
-  "repo": "kullanici/ornek-site"
+  "repo": "user/my-site"
 }
 ```
 
 ---
 
-## 💻 Çalıştırma ve Dağıtım
+## 💻 Development & Deployment
 
 ```bash
 cd skydns/skydns-worker
 npm install
-npm run dev     # Yerel sunucu
-npm run deploy  # Canlıya deploy etme
+npm run dev     # Local dev server
+npm run deploy  # Deploy to Cloudflare Workers
 ```

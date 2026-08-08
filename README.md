@@ -1,38 +1,38 @@
 # 🌌 SkyWeb Monorepo
 
-> 💡 **Bu proje tamamen deneysel bir hobi çalışmasıdır!** 
-> Temel amacım, web'in arkasında yatan çalışma mantığını (DNS nasıl çalışır, tarayıcılar HTML/CSS'i nasıl parse edip widget'a dönüştürür, script'ler nasıl çalıştırılır) sıfırdan kendi küçük `sky://` ekosistemimi kurarak daha iyi anlamak.
+> 💡 **This is a personal hobby and experimental project.** 
+> My main goal is to understand how the web works under the hood (how DNS resolution works, how browsers parse HTML/CSS and render widgets, and how dynamic scripts execute) by building a custom `sky://` web ecosystem from scratch.
 
 ---
 
-## 🧐 Nedir Bu SkyWeb?
+## 🧐 What is SkyWeb?
 
-SkyWeb, klasik `http/https` ağından bağımsız çalışan deneysel bir web altyapısı fikridir. 
-Kendi yazdığım özel DNS servisi (**SkyDNS**) ve geliştirdiğim Flutter tabanlı tarayıcı (**SkyBrowser**) sayesinde `sky://` protokolü üzerinden özel alan adlarını çözüp web sayfalarını ekrana çizer.
-
----
-
-## 📂 Proje Bileşenleri
-
-1. [**`browser/` (SkyBrowser)**](./browser/README.md): `sky://` adreslerini alan adından çözüp GitHub'dan aldığı HTML, CSS ve Dart script'lerini Flutter Widget'larına dönüştüren tarayıcım.
-2. [**`skydns/` (SkyDNS Service)**](./skydns/README.md): `sky://` alan adlarını ilgili GitHub repolarına bağlayan Cloudflare Workers & D1 tabanlı hafif DNS servisim.
-3. [**`sites/`**](./sites/): `sky://` ağı üzerinde yayınlanan örnek siteler (örneğin domain kayıt arayüzü).
+SkyWeb is an experimental web network concept running independently of the traditional `http/https` web. 
+Using a custom edge DNS service (**SkyDNS**) and a custom Flutter browser (**SkyBrowser**), it resolves custom domain names over the `sky://` protocol and renders web pages.
 
 ---
 
-## 🚀 Hızlı Başlangıç
+## 📂 Project Structure
 
-### 1. Tarayıcıyı Çalıştırma (`browser`)
+1. [**`browser/` (SkyBrowser)**](./browser/README.md): A Flutter browser that resolves `sky://` domains, fetches HTML, CSS, and Dart scripts from GitHub, and renders them into native widgets.
+2. [**`skydns/` (SkyDNS Service)**](./skydns/README.md): A lightweight Cloudflare Workers & D1 DNS service that maps `sky://` domains to GitHub repositories.
+3. [**`sites/`**](./sites/): Sample web pages hosted on the `sky://` network, such as a domain registration interface.
+
+---
+
+## 🚀 Quick Start
+
+### 1. Running the Browser (`browser`)
 ```bash
 cd browser
 flutter pub get
 flutter run
 ```
 
-### 2. DNS Servisini Geliştirme/Dağıtma (`skydns`)
+### 2. Developing & Deploying DNS (`skydns`)
 ```bash
 cd skydns/skydns-worker
 npm install
-npm run dev     # Yerel test ortamı
-npm run deploy  # Cloudflare Workers'a canlıya alma
+npm run dev     # Local development
+npm run deploy  # Deploy to Cloudflare Workers
 ```
