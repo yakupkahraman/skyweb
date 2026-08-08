@@ -10,8 +10,8 @@ It resolves custom domain names and renders pages over the `sky://` protocol.
 
 - **`sky://` Custom Protocol**: Resolves domains via the SkyDNS service and fetches page resources from GitHub repositories.
 - **Modular Engine Architecture**:
-  - 🎨 **`html.dart` (HTML Engine)**: Parses HTML DOM trees and converts them directly into native Flutter widgets. Supports flex containers (`direction`, `main-axis`, `cross-axis`, `gap`), text tags (`p`, `h1`-`h3`), links (`a`), images (`img`), inputs (`input`), buttons (`button`), and `width`/`height` dimensions.
-  - 💅 **`css.dart` (CSS Engine)**: Parses CSS rules and resolves element styles using tag and class selectors with pre-compiled regular expressions for high performance.
+  - 🎨 **`html.dart` (HTML Engine)**: Parses HTML DOM trees and converts them directly into native Flutter widgets. Supports flex containers (`direction`, `main-axis`, `cross-axis`, `gap`), text tags (`p`, `h1`-`h3`), links (`a`), images (`img`), inputs (`input`), buttons (`button`), `width`/`height` dimensions, inline `style` attributes, and `display: none`.
+  - 💅 **`css.dart` (CSS Engine)**: Parses CSS rules and resolves element styles using tag selectors, class selectors, and inline `style="..."` attributes with pre-compiled regular expressions for high performance.
   - ⚡ **`script.dart` (Script Runtime)**: Sandboxed Dart execution environment powered by `dart_eval` for client-side interactivity (`getInput`, `getText`, `get`, `post`, `setText`, `setTimeout`, `clearTimeout`, `setInterval`, `clearInterval`).
   - 🔌 **`engine.dart` (Facade & Hub)**: Central entry point for site fetching with parallel HTTP asset retrieval (`Future.wait`) and submodule exports.
 - **Separation of UI & Logic**:

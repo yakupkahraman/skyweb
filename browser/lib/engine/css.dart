@@ -54,5 +54,19 @@ Map<String, String> resolveStyle(dom.Element element, List<CssRule> allRules) {
     }
   }
 
+  final styleAttr = element.attributes['style']?.trim();
+  if (styleAttr != null && styleAttr.isNotEmpty) {
+    for (final statement in styleAttr.split(';')) {
+      final colonIndex = statement.indexOf(':');
+      if (colonIndex == -1) continue;
+
+      final prop = statement.substring(0, colonIndex).trim().toLowerCase();
+      final val = statement.substring(colonIndex + 1).trim();
+      if (prop.isNotEmpty && val.isNotEmpty) {
+        resolved[prop] = val;
+      }
+    }
+  }
+
   return resolved;
 }

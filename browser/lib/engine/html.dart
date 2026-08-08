@@ -62,9 +62,13 @@ Widget? _buildElement(
   List<CssRule> cssRules,
   ScriptRuntime runtime,
 ) {
+  final style = resolveStyle(element, cssRules);
+  if (style['display']?.trim() == 'none') {
+    return const SizedBox.shrink();
+  }
+
   switch (element.localName) {
     case 'div':
-      final style = resolveStyle(element, cssRules);
       final children = _buildChildWidgets(element, cssRules, runtime);
       final isColumn = style['direction']?.trim() == 'column';
       final mainAxis = parseMainAxis(style['main-axis']);

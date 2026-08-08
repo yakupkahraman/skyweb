@@ -28,7 +28,7 @@
   <ul>
     <li><p>index.html - zorunlu, sayfanın iskeleti</p></li>
     <li><p>styles.css - isteğe bağlı, görünüm</p></li>
-    <li><p>script.dart - isteğe bağlı, buton davranışları</p></li>
+    <li><p>script.dart - isteğe bağlı, buton ve zamanlayıcı davranışları</p></li>
     <li><p>favicon.png - isteğe bağlı, sekme ikonu</p></li>
   </ul>
 
@@ -64,9 +64,9 @@
 
   <p class="note">Listelerde li içine doğrudan yazı yazmayın, içine p koyun.</p>
 
-  <h2>CSS</h2>
+  <h2>CSS ve Satır İçi Stiller</h2>
 
-  <p>İki seçici türü vardır: etiket adı ve nokta ile sınıf. id seçici yoktur, id sadece script için kullanılır.</p>
+  <p>İki seçici türü vardır: etiket adı ve nokta ile sınıf. Ayrıca HTML etiketlerinde satır içi style="..." özniteliği de desteklenir. id seçici yoktur, id sadece script için kullanılır.</p>
 
   <div class="code">
 <p>h1 {
@@ -79,6 +79,14 @@
 }</p>
   </div>
 
+  <p>Satır içi stil ve eleman gizleme (display: none) kullanımı:</p>
+
+  <div class="code">
+<p>&lt;p style="display: none;" id="gizli_veri"&gt;&lt;/p&gt;
+&lt;div style="background-color: #333333; padding: 12px;"&gt;...&lt;/div&gt;</p>
+  </div>
+
+  <p class="note">display: none elemanı ekranda gizler ancak id'si script.dart tarafında (getText/setText) kullanılabilir kalır.</p>
   <p>Renkler: hex (#ff0000, #f00) veya isim (red, blue, white, black, green, yellow, orange, purple, grey).</p>
 
   <h2>Yerleşim</h2>
@@ -103,6 +111,7 @@
     <li><p>gap: öğeler arası boşluk</p></li>
     <li><p>padding: 16px ya da 8px 16px ya da 8px 16px 8px 16px</p></li>
     <li><p>width, height: sabit boyut, div ve p için</p></li>
+    <li><p>display: none: elemanı ekranda gizleme</p></li>
   </ul>
 
   <p class="note">main-axis ve cross-axis, CSS'teki justify-content ve align-items yerine geçer.</p>
@@ -131,9 +140,9 @@
 
   <h2>script.dart</h2>
 
-  <p>Butonlara davranış eklemek için script.dart yazarsınız. JavaScript değil, gerçek Dart.</p>
+  <p>Butonlara ve zamanlayıcılara dinamik davranış eklemek için script.dart yazarsınız. JavaScript değil, gerçek Dart.</p>
 
-  <p>Butonda onclick ile fonksiyon adını verirsiniz:</p>
+  <p>Sayfa yüklendiğinde main() fonksiyonu tanımlıysa otomatik çalıştırılır. Değişken durumları (state) sayfa açık kaldığı sürece fonksiyon çağrıları arasında korunur.</p>
 
   <div class="code">
 <p>&lt;input id="ad" placeholder="adınız" /&gt;
@@ -141,24 +150,30 @@
 &lt;p id="cikti"&gt;&lt;/p&gt;</p>
   </div>
 
-  <p>script.dart içinde aynı isimde bir fonksiyon tanımlarsınız. Her fonksiyon üç parametre alır, sırası değişmez:</p>
+  <p>Fonksiyonlar parametre almak zorunda değildir. Köprü fonksiyonları (getInput, setText vb.) ortamda küresel olarak hazırdır:</p>
 
   <div class="code">
-<p>void selamla(Function getInput, Function post, Function setText) {
+<p>void selamla() {
   var ad = getInput('ad');
   setText('cikti', 'Merhaba ' + ad);
 }</p>
   </div>
 
-  <h2>Script fonksiyonları</h2>
+  <h2>Script fonksiyonları (Köprüler)</h2>
 
   <ul>
-    <li><p>getInput(id) - o id'li input'un içindeki yazıyı verir</p></li>
-    <li><p>setText(id, yazi) - o id'li p etiketinin yazısını değiştirir</p></li>
-    <li><p>post(adres, govde, sonucId) - adrese POST atar, cevabı sonucId'ye yazar</p></li>
+    <li><p>getInput(id) - o id'li input'un mevcut değerini döndürür</p></li>
+    <li><p>getText(id) - o id'li elemanın mevcut metin içeriğini döndürür</p></li>
+    <li><p>setText(id, yazi) - o id'li elemanın yazısını günceller</p></li>
+    <li><p>get(adres, sonucId) - HTTP GET isteği atar, ham cevabı sonucId elemanına yazar</p></li>
+    <li><p>post(adres, govde, sonucId) - HTTP POST isteği atar, ham cevabı sonucId elemanına yazar</p></li>
+    <li><p>setTimeout(fonksiyonAdi, milisaniye) - belirtilen süre sonra fonksiyonu bir kez tetikler</p></li>
+    <li><p>clearTimeout(fonksiyonAdi) - bekleyen tek seferlik zamanlayıcıyı iptal eder</p></li>
+    <li><p>setInterval(fonksiyonAdi, milisaniye) - fonksiyonu periyodik tetikler (en az 50ms)</p></li>
+    <li><p>clearInterval(fonksiyonAdi) - periyodik zamanlayıcıyı durdurur</p></li>
   </ul>
 
-  <p class="note">post beklemez, cevap gelince sonuç kendiliğinden yazılır. await kullanmanıza gerek yok.</p>
+  <p class="note">get ve post istekleri asenkrondur; beklemez, cevap geldiğinde ham HTTP yanıtı sonucId elemanına yazılır.</p>
 
   <h2>Domain alma</h2>
 
